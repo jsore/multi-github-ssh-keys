@@ -225,13 +225,13 @@ the correct SSH `Host` key
 ```
 work/project $ git config --list
 > ...
-> user.name=Justin Sorensen             <-- global settings listed first
-> user.email=jsore@email.com   <-- global settings listed first
+> user.name=Justin Sorensen         <-- global settings listed first
+> user.email=jsore@email.com        <-- global settings listed first
 > ...
 > remote.origin.url=git@github.ibm.com-sorensen:sorensen/some/work/project.git  <-- yup, right -Host
 > ...
-> user.name=sorensen                    <-- then overrides to globals are listed
-> user.email=jsore.work@email.com        <-- then overrides to globals are listed
+> user.name=sorensen                <-- then overrides to globals are listed
+> user.email=jsore.work@email.com   <-- then overrides to globals are listed
 > ...
 ```
 
