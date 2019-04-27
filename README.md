@@ -242,8 +242,8 @@ work/project $ git config --list
 
 
 
-Now I can work on a new project without any fuss that falls back to globals, just
-specify the `-Host`
+Now I can work on a new project and have the project mapped to my personal account
+automatically just by specifying the correct `-Host` when initially connecting it to GitHub
 
 <br>
 
