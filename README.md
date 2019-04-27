@@ -155,10 +155,11 @@ Add the private keys to the `ssh-agent` and use mac-specific `-K` flag for keych
 
 Add your **public** keys to each of your GitHub accounts - **NEVER** share the private
 
+Copy them to your clipboard then paste them in `github.com/settings/keys` `New SSH key`
+
 ```
-( copy each to your clipboard )
 ~ $ pbcopy < ~/.ssh/github_personal_rsa.pub
-( then paste in github.com/settings/keys >> New SSH key )
+( then paste  )
 ```
 
 <br>
@@ -181,128 +182,126 @@ manual definitions for my couple of work repos
 
 
 Let's assume I'm making a new pointer to an existing repo in my work GitHub account
-and need to `git clone` down to my local machine: I'll need to use the -Host variable
+and need to `git clone` down to my local machine: I'll need to use the `-Host` variable
 I mentioned in the comments in `.ssh/config`
 
 ```
-work $ git clone git@github.ibm.com-sorensen:some/work/project.git DirectoryName
-work $ cd DirectoryName
+work $ git clone git@github.ibm.com-sorensen:some/work/project.git aProject
+work $ cd aProject
 ```
 
 <br>
 
-The `-sorensen` portion is the `Host` portion, it specifies which `Host` to use from `.ssh/config`
+
+
+The `-sorensen` portion is the `-Host` portion, it specifies which `.ssh/config`
+`Host` to use
 
 <br>
+
+
 
 Just set local username options and you're good to go using your normal dev flow
 
 ```
-work/DirectoryName $ git config user.name "sorensen"
-work/DirectoryName $ git config user.email "jsore.work@email.com"
+work/aProject $ git config user.name "sorensen"
+work/aProject $ git config user.email "jsore.work@email.com"
 
 ( make some changes to something )
 
-DirectoryName $ git add .
-DirectoryName $ git commit -m "some comments"
-DirectoryName $ git push -u origin master
+work/aProject $ git add .
+work/aProject $ git commit -m "some comments"
+work/aProject $ git push -u origin master
 
 ( pushes without bugging for a password because auth happens with key pair )
 ```
 
 <br>
 
-You can check out your local git config options
+
+
+You can check out your local git config options and confirm your remote maps to
+the correct SSH `Host` key
 
 ```
-work/DirectoryName $ cat .git/config
+work/aProject $ git config --list
 > ...
-> [remote "origin"]
->     url = git@github.ibm.com-sorensen:some/work/project.git
->     fetch = +refs/heads/*:refs/remotes/origin/*
+> user.name=Justin Sorensen             <-- global settings listed first
+> user.email=jus.a.sorensen@gmail.com   <-- global settings listed first
 > ...
-> [user]
->     name = sorensen
->     email = jsore.work@email.com
+> remote.origin.url=git@github.ibm.com-sorensen:some/work/project.git  <-- yup, right -Host
+> ...
+> user.name=sorensej                    <-- then overrides to globals are listed
+> user.email=sorensej@us.ibm.com        <-- then overrides to globals are listed
 > ...
 ```
 
 <br>
 
-And compare them with your global settings
 
-```
-work/DirectoryName $ cd
-~ $ git config --list
-> ...
-> user.name=Justin Sorensen
-> user.email=jsore@email.com
-> ...
-~ $ cat .gitconfig
-> [user]
->     name = sorensen
->     email = jsore.work@email.com
-```
 
+Now I can work on a new project without any fuss that falls back to globals, just
+specify the `-Host`
 
 <br>
 
-Change to a new project that isn't strictly isolated to work
+
+
+New project from a local directory:
 
 ```
-DirectoryName $ cd some/dir/for/projects
-projects $ git init
+work/aProject $ cd some/personal/projects
+projects $ mkdir new-hotness
+projects $ cd new-hotness
+projects/new-hotness $ echo "# test text so that file isn't blank" >> README.md
+projects/new-hotness $ git init
+projects/new-hotness $ git add README.md
+projects/new-hotness $ git commit -m "some comments"
 
-( start a new README )
+( create a new repo on GitHub )
 
-projects $ git add README.md
-projects $ git commit -m "some comments"
-projects $ git push -u origin master
+projects/new-hotness $ git remote add origin git@github.com-jsore:jsore/new-hotness.git
+projects/new-hotness $ git push -u origin master
+
+( pushes without bugging for a password because auth happens with key pair )
 ```
 
+<br>
 
 
 
+Cloning a project previously created and backed up on GitHub:
+
+```
+$ cd some/personal/projects
+projects $ git clone git@github.com-jsore:jsore/another-new-hotness.git
+projects $ cd another-new-hotness
+
+( do some changes )
+
+projects/another-new-hotness $ git commit -a -m "some comments"
+projects/another-new-hotness $ git push -u origin master
+```
+
+<br>
 
 
 
+If you happen to forget to assign the correct `-Host` when cloning a project or
+adding a new remote, just update the project's `.git/config` file to use the right one
 
+```
+...
+[remote "origin"]
+    url = git@github.com:jsore/this-was-created-wrong.git
+...
+```
 
-Host *
-    UseKeychain yes
-    AddKeysToAgent yes
-    IdentityFile ~/.ssh/id_rsa
+To:
 
+```
+[remote "origin"]
+    url = git@github.com-jsore:jsore/this-was-created-wrong.git
+```
 
-
-    /*----------  credential-osxkeychain helper  ----------*/
-~ $ git credential-osxkeychain
-    > usage: git credential-osxkeychain <get|store|erase>
-    ~ $ git config --global credential.helper osxkeychain
-( attempt to clone a repo )
-
-
-
-
-    git clone https://github.com/jsore/Snippets.git
-    ( OSX asks for login password in a popup )
-    ( github auth will fail, do the clone again )
-Cloning into 'Snippets'...
-remote: Invalid username or password.
-fatal: Authentication failed for 'https://github.com/jsore/Snippets.git/'
-
-git clone https://github.com/jsore/Snippets.git
-Cloning into 'Snippets'...
-Username for 'https://github.com': jsore
-Password for 'https://jsore@github.com':
-remote: Enumerating objects: 53, done.
-remote: Counting objects: 100% (53/53), done.
-remote: Compressing objects: 100% (41/41), done.
-remote: Total 53 (delta 19), reused 45 (delta 11), pack-reused 0
-Unpacking objects: 100% (53/53), done.
-
-( enter github username & password when prompted )
-    ( all subsequent HTTPS push/pulls gets login data from keychain now )
-    git add usefulSnippets.js
-    git commit -m "Testing OSX keychain, ignore"
-    git push -u origin master
+<br><br>
