@@ -185,8 +185,8 @@ and need to `git clone` down to my local machine: I'll need to use the `-Host` v
 I mentioned in the comments in `.ssh/config`
 
 ```
-work $ git clone git@github.ibm.com-sorensen:sorensen/some/work/project.git aProject
-work $ cd aProject
+work $ git clone git@github.ibm.com-sorensen:sorensen/some/work/project.git
+work $ cd project
 ```
 
 <br>
@@ -203,14 +203,14 @@ The `-sorensen` portion is the `-Host` portion, it specifies which `.ssh/config`
 Just set local username options and you're good to go using your normal dev flow
 
 ```
-work/aProject $ git config user.name "sorensen"
-work/aProject $ git config user.email "jsore.work@email.com"
+work/project $ git config user.name "sorensen"
+work/project $ git config user.email "jsore.work@email.com"
 
 ( make some changes to something )
 
-work/aProject $ git add .
-work/aProject $ git commit -m "some comments"
-work/aProject $ git push -u origin master
+work/project $ git add .
+work/project $ git commit -m "some comments"
+work/project $ git push -u origin master
 
 ( pushes without bugging for a password because auth happens with key pair )
 ```
@@ -223,7 +223,7 @@ You can check out your local git config options and confirm your remote maps to
 the correct SSH `Host` key
 
 ```
-work/aProject $ git config --list
+work/project $ git config --list
 > ...
 > user.name=Justin Sorensen             <-- global settings listed first
 > user.email=jsore@email.com   <-- global settings listed first
@@ -249,7 +249,7 @@ specify the `-Host`
 New project from a local directory:
 
 ```
-work/aProject $ cd some/personal/projects
+work/project $ cd some/personal/projects
 projects $ mkdir new-hotness
 projects $ cd new-hotness
 projects/new-hotness $ echo "# test text so that file isn't blank" >> README.md
