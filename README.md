@@ -159,6 +159,9 @@ Copy them to your clipboard then paste them in `github.com/settings/keys` `New S
 
 ```
 ~ $ pbcopy < ~/.ssh/github_personal_rsa.pub
+( paste in GitHub )
+~ $ pbcopy < ~/.ssh/github_work_rsa.pub
+( paste in Enterprise GitHub )
 ```
 
 <br>
