@@ -140,11 +140,11 @@ Add the private keys to the `ssh-agent` and use mac-specific `-K` flag for keych
 
 ```
 ~ $ ssh-add -K ~/.ssh/github_personal_rsa
-> Identity added: /Users/justin/.ssh/github_personal_rsa (jsore@email.com)
+> Identity added: /Users/jsore/.ssh/github_personal_rsa (jsore@email.com)
 ~ $ ssh-add -K ~/.ssh/github_work_rsa
-> Identity added: /Users/justin/.ssh/github_work_rsa (jsore.work@email.com)
+> Identity added: /Users/jsore/.ssh/github_work_rsa (jsore.work@email.com)
 ~ $ ssh-add -K ~/.ssh/default_ssh_rsa
-> Identity added: /Users/justin/.ssh/default_ssh_rsa (jsore.private@email.com)
+> Identity added: /Users/jsore/.ssh/default_ssh_rsa (jsore.private@email.com)
 ```
 
 <br>
@@ -159,16 +159,15 @@ Copy them to your clipboard then paste them in `github.com/settings/keys` `New S
 
 ```
 ~ $ pbcopy < ~/.ssh/github_personal_rsa.pub
-( then paste  )
 ```
 
 <br>
 
 
 
-Now, I only have a couple work-related repos - the majority of my repos are on
+Now, I only have a couple work-related repos - the majority of my projects are on
 my personal account - so, I have a `--global` config setting to use my personal
-account's login info and SSH key ( defined in the `.ssh/config` Host ) and set
+account's login info and SSH key ( defined in the `.ssh/config` `Host` ) and set
 manual definitions for my couple of work repos
 
 ```
@@ -186,7 +185,7 @@ and need to `git clone` down to my local machine: I'll need to use the `-Host` v
 I mentioned in the comments in `.ssh/config`
 
 ```
-work $ git clone git@github.ibm.com-sorensen:some/work/project.git aProject
+work $ git clone git@github.ibm.com-sorensen:sorensen/some/work/project.git aProject
 work $ cd aProject
 ```
 
@@ -227,12 +226,12 @@ the correct SSH `Host` key
 work/aProject $ git config --list
 > ...
 > user.name=Justin Sorensen             <-- global settings listed first
-> user.email=jus.a.sorensen@gmail.com   <-- global settings listed first
+> user.email=jsore@email.com   <-- global settings listed first
 > ...
-> remote.origin.url=git@github.ibm.com-sorensen:some/work/project.git  <-- yup, right -Host
+> remote.origin.url=git@github.ibm.com-sorensen:sorensen/some/work/project.git  <-- yup, right -Host
 > ...
-> user.name=sorensej                    <-- then overrides to globals are listed
-> user.email=sorensej@us.ibm.com        <-- then overrides to globals are listed
+> user.name=sorensen                    <-- then overrides to globals are listed
+> user.email=jsore.work@email.com        <-- then overrides to globals are listed
 > ...
 ```
 
@@ -258,7 +257,7 @@ projects/new-hotness $ git init
 projects/new-hotness $ git add README.md
 projects/new-hotness $ git commit -m "some comments"
 
-( create a new repo on GitHub )
+( create a new repo on GitHub, then: )
 
 projects/new-hotness $ git remote add origin git@github.com-jsore:jsore/new-hotness.git
 projects/new-hotness $ git push -u origin master
