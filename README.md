@@ -228,7 +228,7 @@ the correct SSH `Host` key
 ```
 work/project $ git config --list
 > ...
-> user.name=Justin Sorensen         <-- global settings listed first
+> user.name=jsore                   <-- global settings listed first
 > user.email=jsore@email.com        <-- global settings listed first
 > ...
 > remote.origin.url=git@github.ibm.com-sorensen:sorensen/some/work/project.git  <-- yup, right -Host
