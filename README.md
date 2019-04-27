@@ -260,7 +260,7 @@ projects/new-hotness $ git init
 projects/new-hotness $ git add README.md
 projects/new-hotness $ git commit -m "some comments"
 
-( create a new repo on GitHub, then: )
+( create a new repo on GitHub titled new-hotness, then: )
 
 projects/new-hotness $ git remote add origin git@github.com-jsore:jsore/new-hotness.git
 projects/new-hotness $ git push -u origin master
